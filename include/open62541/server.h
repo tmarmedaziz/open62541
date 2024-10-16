@@ -100,6 +100,8 @@ struct UA_ServerConfig {
     UA_ApplicationDescription applicationDescription;
     UA_ByteString serverCertificate;
 
+    void (*closedSessionCallback) (UA_Server *server, UA_AccessControl *ac, UA_Connection *c); // A callback on inappropriate closed session (to be called from the low level TCP conn)
+
     /**
      * Timeouts and Delays
      * ^^^^^^^^^^^^^^^^^^^ */

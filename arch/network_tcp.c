@@ -582,6 +582,16 @@ ServerNetworkLayerTCP_listen(UA_ServerNetworkLayer *nl, UA_Server *server,
             UA_LOG_INFO(layer->logger, UA_LOGCATEGORY_NETWORK,
                         "Connection %i | Closed",
                         (int)(e->connection.sockfd));
+
+            UA_Connection *c = &e->connection;
+            nl->buffer = c; // forward closed session info throught the nl buffer
+
+            UA_ServerConfig *serverConfig = UA_Server_getConfig(server);
+            if (serverConfig->closedSessionCallback && c)
+            {
+                serverConfig->closedSessionCallback(server, &serverConfig->accessControl, c); //callback 
+            }
+            
             LIST_REMOVE(e, pointers);
             layer->connectionsSize--;
             UA_close(e->connection.sockfd);
