@@ -60,6 +60,9 @@ typedef enum {
 } UA_ConnectionState;
 
 struct UA_Connection {
+    struct sockaddr_storage remoteIp;  // IP address of the remote connection
+    UA_String *sessionName;             // Name of the session
+
     UA_ConnectionState state;
     UA_SecureChannel *channel;     /* The securechannel that is attached to
                                     * this connection */
@@ -148,6 +151,9 @@ UA_Server_removeConnection(UA_Server *server, UA_Connection *connection);
 
 struct UA_ServerNetworkLayer {
     void *handle; /* Internal data */
+
+    void* buffer;         // A pointer to any data to be transferred
+    size_t bufferSize;    // Size of the data in the buffer
 
     /* Points to external memory, i.e. handled by server or client */
     UA_NetworkStatistics *statistics;

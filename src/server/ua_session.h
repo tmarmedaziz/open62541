@@ -48,6 +48,8 @@ typedef struct {
     UA_DateTime       validTill;
     UA_ByteString     serverNonce;
 
+    UA_SecureChannel *channel;
+
     UA_UInt16         availableContinuationPoints;
     ContinuationPoint *continuationPoints;
 

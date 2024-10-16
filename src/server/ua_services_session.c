@@ -408,6 +408,9 @@ Service_CreateSession(UA_Server *server, UA_SecureChannel *channel,
 #endif
 
     UA_LOG_INFO_SESSION(&server->config.logger, newSession, "Session created");
+
+    newSession->channel->connection->sessionName = UA_String_new();
+    UA_String_copy(&newSession->sessionName, newSession->channel->connection->sessionName);
 }
 
 static UA_StatusCode
